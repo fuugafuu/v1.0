@@ -69,3 +69,34 @@ async function generateAIExplanation(query) {
   const data = await response.json();
   return data.choices[0].text.trim();
 }
+async function generateAIExplanation(query) {
+  const response = await fetch('/api/serverless-function', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query })
+  });
+
+  const data = await response.json();
+
+  if (data.error) {
+    return 'AIからの説明を取得できませんでした。';
+  }
+
+  return data.text;
+}
+
+async function searchFunction() {
+  const query = document.getElementById('search-input').value;
+  const resultsDiv = document.getElementById('results');
+
+  if (query.trim() === '') {
+    resultsDiv.innerHTML = '<p>検索ワードを入力してください。</p>';
+    return;
+  }
+
+  resultsDiv.innerHTML = '<p>検索中...</p>';
+
+  const explanation = await generateAIExplanation(query);
+
+  resultsDiv.innerHTML = `<p><strong>${query}</strong>: ${explanation}</p>`;
+}
