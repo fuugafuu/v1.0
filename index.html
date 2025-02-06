@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>検索機能 v1.0</title>
+  <title>高度なAI検索アシスタント</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="search-container">
-    <h1>検索機能 v1.0</h1>
-    <p>調べたい方式を入力してください:</p>
-    <input type="text" id="search-input" placeholder="例: HTML, CSS, JavaScript, API など">
-    <button onclick="searchFunction()">検索</button>
+    <h1>高度なAI検索アシスタント</h1>
+    <p>調べたい内容を入力してください:</p>
+    <input type="text" id="search-input" placeholder="例: Python, CSS, AI など" oninput="fetchSuggestions()">
+    <div id="suggestions"></div>
     <div class="results" id="results"></div>
   </div>
   <script src="script.js"></script>
