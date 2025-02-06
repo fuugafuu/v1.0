@@ -4,7 +4,7 @@ async function searchFunction() {
   const query = document.getElementById('search-input').value;
   const resultsDiv = document.getElementById('results');
   const suggestionsDiv = document.getElementById('suggestions');
-  
+
   resultsDiv.innerHTML = '';
   suggestionsDiv.innerHTML = '';
 
@@ -13,13 +13,13 @@ async function searchFunction() {
     return;
   }
 
-  // 候補キーワード提案（OpenAI APIや固定候補で実装）
+  // 候補キーワード提案
   const suggestions = [
-    `${query} チュートリアル`,
-    `${query} 最新情報`,
-    `${query} おすすめツール`
+    `${query}とは`,
+    `${query}の使い方`,
+    `${query}のメリットとデメリット`
   ];
-  
+
   suggestions.forEach(suggestion => {
     const suggestionElement = document.createElement('div');
     suggestionElement.className = 'suggestion';
@@ -28,17 +28,17 @@ async function searchFunction() {
     suggestionsDiv.appendChild(suggestionElement);
   });
 
-  // 検索結果リンクを表示
-  showResults(query);
-}
+  // AI解説生成（OpenAI API使用）
+  const explanation = await generateAIExplanation(query);
 
-function showResults(query) {
-  const resultsDiv = document.getElementById('results');
+  // 検索結果リンクを表示
   const googleUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
   const wikipediaUrl = `https://ja.wikipedia.org/wiki/${encodeURIComponent(query)}`;
   const youtubeUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
 
   resultsDiv.innerHTML = `
+    <h3>AI解説:</h3>
+    <p>${explanation}</p>
     <h3>検索結果リンク:</h3>
     <ul>
       <li><a href="${googleUrl}" target="_blank">Googleで検索</a></li>
@@ -46,4 +46,26 @@ function showResults(query) {
       <li><a href="${youtubeUrl}" target="_blank">YouTubeで検索</a></li>
     </ul>
   `;
+}
+
+async function generateAIExplanation(query) {
+  const apiKey = 'YOUR_OPENAI_API_KEY';  // ここに取得したAPIキーを入れてください
+  const apiUrl = 'https://api.openai.com/v1/completions';
+
+  const response = await fetch(apiUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`
+    },
+    body: JSON.stringify({
+      model: 'text-davinci-003',  // モデルは必要に応じて変更可能（GPT-4も選べます）
+      prompt: `${query}について簡単に説明してください。`,
+      max_tokens: 200,
+      temperature: 0.7
+    })
+  });
+
+  const data = await response.json();
+  return data.choices[0].text.trim();
 }
