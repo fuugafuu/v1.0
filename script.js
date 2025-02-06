@@ -19,3 +19,4 @@ async function getExplanation(query) {
     return 'エラーが発生しました。もう一度お試しください。';
   }
 }
+/api/serverless-function
