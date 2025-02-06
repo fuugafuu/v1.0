@@ -1,6 +1,6 @@
 async function getExplanation(query) {
   try {
-    const response = await fetch('/api/serverless-function', {  // エンドポイント修正
+    const response = await fetch('/api/apiserverless-function', {  // エンドポイント修正
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
