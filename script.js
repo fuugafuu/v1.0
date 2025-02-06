@@ -49,7 +49,7 @@ async function searchFunction() {
 }
 
 async function generateAIExplanation(query) {
-  const apiKey = 'YOUR_OPENAI_API_KEY';  // ここに取得したAPIキーを入れてください
+  const apiKey = 'YOUR_OPENAI_API_KEY';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  // ここに取得したAPIキーを入れてください
   const apiUrl = 'https://api.openai.com/v1/completions';
 
   const response = await fetch(apiUrl, {
